@@ -6,8 +6,8 @@ import cloudinary from "../utils/cloudunary.js";
 
 export const register = async (req, res) => {
   try {
-    const { fullname, email, PhoneNumber, password, role } = req.body;
-    if (!fullname || !email || !PhoneNumber || !password || !role) {
+    const { fullname, email, phoneNumber, password, role } = req.body;
+    if (!fullname || !email || !phoneNumber || !password || !role) {
       return res.status(400).json({
         success: false,
         message: "Somthing is missing",
@@ -34,7 +34,7 @@ export const register = async (req, res) => {
     await User.create({
       fullname,
       email,
-      PhoneNumber,
+      phoneNumber,
       password: hashPassword,
       role,
       profile: {
@@ -94,7 +94,7 @@ export const login = async (req, res) => {
       _id: user._id,
       fullname: user.fullname,
       email: user.email,
-      PhoneNumber: user.PhoneNumber,
+      phoneNumber: user.phoneNumber,
       role: user.role,
       profile: user.profile,
     };
@@ -133,7 +133,7 @@ export const logout = async (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
-    const { fullname, email, PhoneNumber, bio, skills } = req.body;
+    const { fullname, email, phoneNumber, bio, skills } = req.body;
     const file = req.file;
     //cloudinary
     const fileUri = getDataUri(file);
@@ -156,7 +156,7 @@ export const updateProfile = async (req, res) => {
     //updating data
     if (fullname) user.fullname = fullname;
     if (email) user.email = email;
-    if (PhoneNumber) user.PhoneNumber = PhoneNumber;
+    if (phoneNumber) user.phoneNumber = phoneNumber;
     if (bio) user.profile.bio = bio;
     if (skills) user.profile.skills = skillsArray;
 
@@ -172,7 +172,7 @@ export const updateProfile = async (req, res) => {
       _id: user._id,
       fullname: user.fullname,
       email: user.email,
-      PhoneNumber: user.PhoneNumber,
+      phoneNumber: user.phoneNumber,
       role: user.role,
       profile: user.profile,
     };

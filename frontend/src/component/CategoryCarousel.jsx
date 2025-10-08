@@ -8,42 +8,52 @@ import { setSearchedQuery } from "../redux/jobSlice";
 import { useNavigate } from "react-router-dom";
 
 const CategoryCarousel = () => {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const Category = [
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const categories = [
     "Frontend Developer",
     "Backend Developer",
     "Data Science",
     "Graphic Designer",
-    "FullStack Developer"
+    "FullStack Developer",
+    "UI/UX Designer",
+    "DevOps Engineer",
   ];
 
-    const searchJobHandler = (query)=>{
-      dispatch(setSearchedQuery(query))
-      navigate("/browse")
-      
-    }
-  
+  const searchJobHandler = (query) => {
+    dispatch(setSearchedQuery(query));
+    navigate("/browse");
+  };
 
   const settings = {
     dots: false,
     infinite: true,
-    speed: 500,
-    slidesToShow: 2, // Show 3 slides at once
+    speed: 600,
+    slidesToShow: 3,
     slidesToScroll: 1,
-    centerMode: true, // Enables center focus
-    centerPadding: "0px", // Ensures proper alignment
-    nextArrow: <NextArrow />, // Custom Next Button
-    prevArrow: <PrevArrow />, // Custom Prev Button
+    centerMode: true,
+    centerPadding: "0px",
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+    responsive: [
+      { breakpoint: 1024, settings: { slidesToShow: 2 } },
+      { breakpoint: 640, settings: { slidesToShow: 1 } },
+    ],
   };
 
   return (
-    <div className="w-1/2 mx-auto my-10 relative">
+    <div className="relative max-w-5xl mx-auto my-16 px-4">
       <Slider {...settings}>
-        {Category.map((item, index) => (
-          <div key={index} className="text-center p-5">
-            <div onClick={()=>searchJobHandler(item)} className="category-slide border p-4 rounded-md transition-all duration-300">
-              {item}
+        {categories.map((item, index) => (
+          <div key={index} className="px-3">
+            <div
+              onClick={() => searchJobHandler(item)}
+              className="cursor-pointer bg-white rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 py-8 px-6 text-center"
+            >
+              <h3 className="text-lg md:text-xl font-semibold text-gray-800">
+                {item}
+              </h3>
             </div>
           </div>
         ))}
@@ -52,28 +62,24 @@ const CategoryCarousel = () => {
   );
 };
 
-const NextArrow = (props) => {
-  const { onClick } = props;
-  return (
-    <div 
-      className="absolute top-1/2 right-[-30px] transform -translate-y-1/2 cursor-pointer text-3xl text-black hover:text-blue-500"
-      onClick={onClick}
-    >
-      <IoIosArrowForward />
-    </div>
-  );
-};
+// Custom Next Arrow
+const NextArrow = ({ onClick }) => (
+  <div
+    className="absolute top-1/2 right-0 transform -translate-y-1/2 cursor-pointer text-3xl md:text-4xl text-purple-700 hover:text-purple-900 z-10"
+    onClick={onClick}
+  >
+    <IoIosArrowForward />
+  </div>
+);
 
-const PrevArrow = (props) => {
-  const { onClick } = props;
-  return (
-    <div 
-      className="absolute top-1/2 left-[-30px] transform -translate-y-1/2 cursor-pointer text-3xl text-black hover:text-blue-500"
-      onClick={onClick}
-    >
-      <IoIosArrowBack />
-    </div>
-  );
-};
+// Custom Prev Arrow
+const PrevArrow = ({ onClick }) => (
+  <div
+    className="absolute top-1/2 left-0 transform -translate-y-1/2 cursor-pointer text-3xl md:text-4xl text-purple-700 hover:text-purple-900 z-10"
+    onClick={onClick}
+  >
+    <IoIosArrowBack />
+  </div>
+);
 
 export default CategoryCarousel;
